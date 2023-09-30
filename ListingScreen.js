@@ -6,6 +6,7 @@ import {
     Image,
     Button,
     Linking,
+    View,
 } from "react-native";
 
 import React, { useState } from "react";
@@ -32,6 +33,16 @@ export default function Screen1({ navigation }) {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
+            <View style={styles.buttonContainer}>
+                <Button
+                    title="Home"
+                    onPress={() => navigation.navigate("Screen1")}
+                />
+                <Button
+                    title="Map"
+                    onPress={() => navigation.navigate("Screen3")}
+                />
+            </View>
             {stores.map((store) => {
                 const handlePhoneCall = () => {
                     Linking.openURL(`tel:${store.contact}`);
@@ -64,15 +75,6 @@ export default function Screen1({ navigation }) {
                     </TouchableOpacity>
                 );
             })}
-
-            <Button
-                title="Home"
-                onPress={() => navigation.navigate("Screen1")}
-            />
-            <Button
-                title="Map"
-                onPress={() => navigation.navigate("Screen3")}
-            />
         </ScrollView>
     );
 }
@@ -103,5 +105,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
         backgroundColor: "green",
         padding: 5,
+    },
+    buttonContainer: {
+        flexDirection: "row", // Horizontal layout for buttons
+        justifyContent: "space-around", // Space around the buttons
+        alignItems: "center", // Center vertically
+        marginVertical: 10, // Adjust the margin as needed
+        // display: "flex",
     },
 });
