@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     Image,
     Button,
+    Linking,
 } from "react-native";
 
 import React, { useState } from "react";
@@ -31,27 +32,38 @@ export default function Screen1({ navigation }) {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            {stores.map((store) => (
-                <TouchableOpacity
-                    key={store.id}
-                    onPress={() => handleStorePress(store.id)}
-                    style={[
-                        styles.storeContainer,
-                        { width: expandedStore === store.id ? "100%" : "50%" },
-                    ]}
-                >
-                    <Image
-                        source={require("./assets/img/kirana-bccl.webp")}
-                        style={styles.storeImage}
-                    ></Image>
-                    <Text style={styles.storeName}>{store.name}</Text>
-                    {expandedStore === store.id && (
-                        <Text style={styles.contactNumber}>
-                            {store.contact}
-                        </Text>
-                    )}
-                </TouchableOpacity>
-            ))}
+            {stores.map((store) => {
+                const handlePhoneCall = () => {
+                    Linking.openURL(`tel:${store.contact}`);
+                };
+                return (
+                    <TouchableOpacity
+                        key={store.id}
+                        onPress={() => handleStorePress(store.id)}
+                        style={[
+                            styles.storeContainer,
+                            {
+                                width:
+                                    expandedStore === store.id ? "100%" : "50%",
+                            },
+                        ]}
+                    >
+                        <Image
+                            source={require("./assets/img/kirana-bccl.webp")}
+                            style={styles.storeImage}
+                        ></Image>
+                        <Text style={styles.storeName}>{store.name}</Text>
+                        {expandedStore === store.id && (
+                            <Text
+                                style={styles.contactNumber}
+                                onPress={handlePhoneCall}
+                            >
+                                {store.contact}
+                            </Text>
+                        )}
+                    </TouchableOpacity>
+                );
+            })}
 
             <Button
                 title="Home"
@@ -89,5 +101,7 @@ const styles = StyleSheet.create({
     },
     contactNumber: {
         fontSize: 16,
+        backgroundColor: "green",
+        padding: 5,
     },
 });
